@@ -11,9 +11,9 @@ fi
 
 # Initialize Bash It
 BASH_IT_LOG_PREFIX="core: main: "
-: "${BASH_IT:=${BASH_SOURCE%/*}}"
-: "${BASH_IT_CUSTOM:=${BASH_IT}/custom}"
-: "${CUSTOM_THEME_DIR:="${BASH_IT_CUSTOM}/themes"}"
+: "${BASH_IT:=/opt/bash-it}"
+: "${BASH_IT_CUSTOM:=${HOME}/.bash-it/custom}"
+: "${CUSTOM_THEME_DIR:="${HOME}/.bash-it/custom/themes"}"
 : "${BASH_IT_BASHRC:=${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}}"
 
 # Load composure first, so we support function metadata

@@ -3,7 +3,7 @@
 # Since we're uninstalling, avoid depending on any other part of _Bash It_.
 # I.e., hard-code colors (avoid `lib/colors.bash`), &c.
 
-: "${BASH_IT:=${HOME?}/.bash_it}"
+: "${BASH_IT:=/opt/bash-it}"
 
 if [[ ! -e ~/.bashrc && ! -e ~/.bash_profile && ! -e ~/.bashrc.bak && ! -e ~/.bash_profile.bak ]]; then
 	echo "We can't locate your configuration files, so we can't uninstall..."

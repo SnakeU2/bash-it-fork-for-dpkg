@@ -260,12 +260,46 @@ if [[ -n "${no_modify_config:-}" && -n "${append_to_config:-}" ]]; then
 	exit 1
 fi
 
-BASH_IT="$(cd "${BASH_SOURCE%/*}" && pwd)"
+BASH_IT="/opt/bash-it"
 
 CONFIG_FILE=".bashrc"
 
 # overriding CONFIG_FILE:
 CONFIG_FILE="${BASH_IT_CONFIG_FILE:-"${CONFIG_FILE}"}"
+
+# Create user-specific config directory if it doesn't exist
+if [[ ! -d "${HOME}/.bash-it" ]]; then
+	mkdir -p "${HOME}/.bash-it"
+fi
+
+# Create user-specific config file if it doesn't exist
+if [[ ! -f "${HOME}/.bash-it/config" ]]; then
+	cat > "${HOME}/.bash-it/config" << 'EOF'
+# User-specific configuration for bash-it
+# This file is loaded after the main bash-it configuration and allows users to
+# override settings or add their own customizations.
+
+# Override the default theme (optional)
+# export BASH_IT_THEME="bobby"
+
+# Disable theming (optional)
+# export BASH_IT_THEME=""
+
+# Set custom project paths (optional)
+# export BASH_IT_PROJECT_PATHS="$HOME/Projects:/Volumes/work/src"
+
+# Enable automatic reloading after config changes (optional)
+# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+
+# Create a reload alias (optional)
+# export BASH_IT_RELOAD_LEGACY=1
+
+# Set proxy variables (if using the proxy plugin)
+# export BASH_IT_HTTP_PROXY="http://localhost:1234"
+# export BASH_IT_HTTPS_PROXY="http://localhost:1234"
+# export BASH_IT_NO_PROXY="127.0.0.1,localhost"
+EOF
+fi
 # create subdir if CONFIG_FILE has subdirectory components
 if [[ "${CONFIG_FILE%/*}" != "${CONFIG_FILE}" ]]; then
 	mkdir -p "${HOME}/${CONFIG_FILE%/*}"
