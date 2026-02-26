@@ -260,7 +260,7 @@ if [[ -n "${no_modify_config:-}" && -n "${append_to_config:-}" ]]; then
 	exit 1
 fi
 
-: "${BASH_IT:=/opt/bash-it}"
+: "${BASH_IT:=${HOME}/.bash_it}"
 
 CONFIG_FILE=".bashrc"
 

@@ -11,7 +11,7 @@ fi
 
 # Initialize Bash It
 BASH_IT_LOG_PREFIX="core: main: "
-: "${BASH_IT:=/opt/bash-it}"
+: "${BASH_IT:=${HOME}/.bash_it}"
 : "${BASH_IT_CUSTOM:=${HOME}/.bash-it/custom}"
 : "${CUSTOM_THEME_DIR:="${HOME}/.bash-it/custom/themes"}"
 : "${BASH_IT_BASHRC:=${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}}"

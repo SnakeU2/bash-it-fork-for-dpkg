@@ -313,7 +313,7 @@ function _bash-it-migrate() {
 	migrated_something=false
 
 	for file_type in "aliases" "plugins" "completion"; do
-		for _bash_it_config_file in "${BASH_IT}/$file_type/enabled"/*.bash; do
+		for _bash_it_config_file in "${HOME}/$file_type/enabled"/*.bash; do
 			[[ -f "$_bash_it_config_file" ]] || continue
 
 			# Get the type of component from the extension
@@ -1012,7 +1012,7 @@ function _disable-thing() {
 
 	if [[ "$file_entity" == "all" ]]; then
 		# Disable everything that's using the old structure and everything in the global "enabled" directory.
-		for _bash_it_config_file in "${BASH_IT}/$subdirectory/enabled"/*."${suffix}.bash" "${BASH_IT}/enabled"/*".${suffix}.bash"; do
+		for _bash_it_config_file in "${HOME}/$subdirectory/enabled"/*."${suffix}.bash" "${HOME}/enabled"/*".${suffix}.bash"; do
 			rm -f "$_bash_it_config_file"
 		done
 	else
@@ -1020,7 +1020,7 @@ function _disable-thing() {
 		# 250---node.plugin.bash
 		# node.plugin.bash
 		# Either one will be matched by this glob
-		for plugin in "${BASH_IT}/enabled"/[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR}${file_entity}.${suffix}.bash" "${BASH_IT}/$subdirectory/enabled/"{[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR}${file_entity}.${suffix}.bash","${file_entity}.${suffix}.bash"}; do
+		for plugin in "${HOME}/enabled"/[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR}${file_entity}.${suffix}.bash" "${HOME}/$subdirectory/enabled/"{[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR}${file_entity}.${suffix}.bash","${file_entity}.${suffix}.bash"}; do
 			if [[ -e "${plugin}" ]]; then
 				rm -f "${plugin}"
 				plugin=
@@ -1116,20 +1116,20 @@ function _enable-thing() {
 
 		to_enable="${to_enables[0]##*/}"
 		# Check for existence of the file using a wildcard, since we don't know which priority might have been used when enabling it.
-		for enabled_plugin in "${BASH_IT}/$subdirectory/enabled"/{[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR}${to_enable}","${to_enable}"} "${BASH_IT}/enabled"/[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR?}${to_enable}"; do
+		for enabled_plugin in "${HOME}/$subdirectory/enabled"/{[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR}${to_enable}","${to_enable}"} "${HOME}/enabled"/[[:digit:]][[:digit:]][[:digit:]]"${BASH_IT_LOAD_PRIORITY_SEPARATOR?}${to_enable}"; do
 			if [[ -e "${enabled_plugin}" ]]; then
 				printf '%s\n' "$file_entity is already enabled."
 				return
 			fi
 		done
 
-		mkdir -p "${BASH_IT}/enabled"
+		mkdir -p "${HOME}/enabled"
 
 		# Load the priority from the file if it present there
 		local_file_priority="$(awk -F': ' '$1 == "# BASH_IT_LOAD_PRIORITY" { print $2 }' "${BASH_IT}/$subdirectory/available/$to_enable")"
 		use_load_priority="${local_file_priority:-$load_priority}"
 
-		ln -s "../$subdirectory/available/$to_enable" "${BASH_IT}/enabled/${use_load_priority}${BASH_IT_LOAD_PRIORITY_SEPARATOR}${to_enable}"
+		ln -s "../$subdirectory/available/$to_enable" "${HOME}/enabled/${use_load_priority}${BASH_IT_LOAD_PRIORITY_SEPARATOR}${to_enable}"
 	fi
 
 	_bash-it-component-cache-clean "${file_type}"
@@ -1163,7 +1163,7 @@ function _help-aliases() {
 	else
 		local f
 
-		for f in "${BASH_IT}/aliases/enabled"/* "${BASH_IT}/enabled"/*."aliases.bash"; do
+		for f in "${HOME}/aliases/enabled"/* "${HOME}/enabled"/*."aliases.bash"; do
 			[[ -f "$f" ]] || continue
 			_help-list-aliases "$f"
 		done
